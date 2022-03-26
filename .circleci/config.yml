@@ -7,23 +7,20 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Update Yarn
-          command: "sudo yarn install -g"
+          name: Update NPM
+          command: "sudo npm install -g npm"
       - restore_cache:
-          key: dependency-cache-{{ checksum "yarn.lock" }}
+          key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
           name: Install Dependencies
-          command: yarn install
+          command: npm install
       - save_cache:
-          key: dependency-cache-{{ checksum "yarn.lock" }}
+          key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
-      - ryn:
-          name: Run tests
-          command: yarn test
       - run:
           name: Build React App
-          command: yarn build
+          command: npm run build
       - save_cache:
           key: app-build-cache-{{ .Branch }}
           paths:
